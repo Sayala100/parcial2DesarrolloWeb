@@ -7,7 +7,7 @@ import { Repository } from 'typeorm';
 import { RedsocialEntity } from './redsocial.entity';
 
 @Injectable()
-export class redsocialService {
+export class RedsocialService {
    constructor(
        @InjectRepository(RedsocialEntity)
        private readonly redsocialRepository: Repository<RedsocialEntity>

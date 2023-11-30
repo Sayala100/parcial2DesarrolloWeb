@@ -7,7 +7,7 @@ import { Repository } from 'typeorm';
 import { FotoEntity } from './foto.entity';
 
 @Injectable()
-export class fotoService {
+export class FotoService {
    constructor(
        @InjectRepository(FotoEntity)
        private readonly fotoRepository: Repository<FotoEntity>
@@ -34,7 +34,7 @@ export class fotoService {
         if (foto.valObturacion < 2 || foto.valObturacion > 250)
             throw new BusinessLogicException("The foto valObturacion is wrong", BusinessError.PRECONDITION_FAILED);
        
-        if (foto.apertura < 1 || foto.iso > 32)
+        if (foto.apertura < 1 || foto.apertura > 32)
             throw new BusinessLogicException("The foto apertura is wrong", BusinessError.PRECONDITION_FAILED);
         
         const medioiso = (100+6400)/2;
