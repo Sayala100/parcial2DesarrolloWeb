@@ -8,6 +8,7 @@ import { FotoEntity } from './foto.entity';
 
 @Injectable()
 export class FotoService {
+   albumRepository: any;
    constructor(
        @InjectRepository(FotoEntity)
        private readonly fotoRepository: Repository<FotoEntity>
@@ -52,7 +53,13 @@ export class FotoService {
        const foto: FotoEntity = await this.fotoRepository.findOne({where:{id}});
        if (!foto)
          throw new BusinessLogicException("The foto with the given id was not found", BusinessError.NOT_FOUND);
-    
+
+        if (foto.album != null)
+            
+            if (foto.album.fotos.length == 1)
+
+                await this.albumRepository.remove(foto.album);
+        
        await this.fotoRepository.remove(foto);
    }
 }

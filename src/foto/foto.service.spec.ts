@@ -80,6 +80,47 @@ describe('FotoService', () => {
     await expect(() => service.deleteFoto("0")).rejects.toHaveProperty("message", "The foto with the given id was not found")
   });
 
+  it('should find all fotos', async () => {
+    const foto: FotoEntity  = new FotoEntity();
+    foto.iso = 101;
+    foto.valObturacion = 200;
+    foto.apertura = 5;
+    foto.fecha = new Date();
+    foto.album = null;
+    foto.usuario = null;
+    const savedFoto: FotoEntity = await service.create(foto);
+    const fotos: FotoEntity[] = await service.findAllFotos();
+    let tamano = fotos.length;
+    expect(tamano).toBeGreaterThan(0);
+  });
+
+  it('should find a foto by id', async () => {
+    const foto: FotoEntity  = new FotoEntity();
+    foto.iso = 101;
+    foto.valObturacion = 200;
+    foto.apertura = 5;
+    foto.fecha = new Date();
+    foto.album = null;
+    foto.usuario = null;
+    const savedFoto: FotoEntity = await service.create(foto);
+    const fotoById: FotoEntity = await service.findFotoByID(savedFoto.id);
+    expect(fotoById).toEqual(savedFoto);
+  });
+
+  it('should throw an exception for an invalid foto', async () => {
+    const foto: FotoEntity  = new FotoEntity();
+    foto.iso = 101;
+    foto.valObturacion = 200;
+    foto.apertura = 5;
+    foto.fecha = new Date();
+    foto.album = null;
+    foto.usuario = null;
+    const savedFoto: FotoEntity = await service.create(foto);
+    await expect(() => service.findFotoByID("0")).rejects.toHaveProperty("message", "The foto with the given id was not found")
+  });
+
+
+
 
   
 

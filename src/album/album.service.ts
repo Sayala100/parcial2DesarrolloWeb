@@ -10,6 +10,7 @@ import { FotoEntity } from '../foto/foto.entity';
 @Injectable()
 export class AlbumService {
     fotoRepository: any;
+    
    constructor(
        @InjectRepository(AlbumEntity)
        private readonly albumRepository: Repository<AlbumEntity>
@@ -20,7 +21,7 @@ export class AlbumService {
     if (album.titulo == "")
        throw new BusinessLogicException("The album cannot have empty title", BusinessError.PRECONDITION_FAILED);
 
-       return await this.albumRepository.save(album);
+    return await this.albumRepository.save(album);
 }
 
     async findAlbumById(id: string): Promise<AlbumEntity> {
@@ -31,15 +32,15 @@ export class AlbumService {
         return album;
 }
 
-    // async addPhotoToAlbum(album: AlbumEntity, fotoId: string): Promise<AlbumEntity> {
-    //     const foto: FotoEntity = await this.fotoRepository.findOne({where: {id: fotoId}});
-    //     if (!foto)
-    //         throw new BusinessLogicException("The foto with the given id was not found", BusinessError.NOT_FOUND);
+    async addPhotoToAlbum(album: AlbumEntity, foto: FotoEntity): Promise<AlbumEntity> {
+        
+        if (!foto)
+            throw new BusinessLogicException("The foto with the given id was not found", BusinessError.NOT_FOUND);
     
-    //     album.fotos = [...album.fotos, album];
-    //     return await this.albumRepository.save(album);
-
-    // }
+        album.fotos.push(foto);
+        return await this.albumRepository.save(album);
+        
+    }
 
 
    async deleteAlbum(id: string) {
